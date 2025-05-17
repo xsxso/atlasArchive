@@ -11,16 +11,15 @@ from collections import defaultdict
 with open("last50runs.json", "r") as f:
     data = json.load(f)
 
-# 	Sets up a dictionary that maps field names (e.g., "archiveQueryElapsedTimeMs") to a list of all values seen across documents.
-# 	Iterates through the JSON data, collecting values for each field.
+# Sets up a dictionary that maps field names (e.g., "archiveQueryElapsedTimeMs") to a list of all values seen across documents.
+# Iterates through the JSON data, collecting values for each field.
 elapsed_fields = defaultdict(list)
 
 # This function walks through any nested structure (dicts inside dicts, lists of dicts, etc.) and:
-# Looks for any key containing the word "elapsed" (case-insensitive)
-# Checks that the value is a number (int or float)
-# Saves it under the key in the elapsed_fields dict
-# It’s recursive, so it keeps drilling into nested structures.
-
+  # Looks for any key containing the word "elapsed" (case-insensitive)
+  # Checks that the value is a number (int or float)
+  # Saves it under the key in the elapsed_fields dict
+  # It’s recursive, so it keeps drilling into nested structures.
 def collect_elapsed_fields(obj):
     if isinstance(obj, dict):
         for key, val in obj.items():
@@ -34,8 +33,8 @@ def collect_elapsed_fields(obj):
 # Run collection on loaded JSON
 collect_elapsed_fields(data)
 
-# Compute and display averages
+# Compute and display averages in seconds
 print("Average elapsed times per field:\n")
 for key, values in elapsed_fields.items():
     avg = (sum(values) / len(values)/1000)
-    print(f"{key}: {avg} s (based on {len(values)} samples)")
+    print(f"{key}: {avg} seconds (based on {len(values)} samples)")
